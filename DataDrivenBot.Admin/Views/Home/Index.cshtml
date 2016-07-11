@@ -1,0 +1,53 @@
+﻿@model DataDrivenBot.Admin.Models.Diagram
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm("Save", "Home", FormMethod.Post, new { id = "SaveForm" }))
+{
+
+
+    <div id="sample">
+        <h3>Conversation</h3>
+
+
+
+        <div style="width:100%; white-space:nowrap;">
+            <span style="display: inline-block; vertical-align: top; padding: 5px; width:18%">
+                <div id="myPaletteDiv" style="border: solid 1px black; height: 620px"></div>
+            </span>
+
+            <span style="display: inline-block; vertical-align: top; padding: 5px; width:59%">
+                <div id="myDiagramDiv" style="border: solid 1px black; height: 620px"></div>
+            </span>
+
+            <span style="display: inline-block; vertical-align: top; padding: 5px; width:23%">
+                <div id="myInfoDiv" style="border: solid 1px black; height: 620px"></div>
+            </span>
+
+            @*<div id="infoDraggable" class="draggable" style="display: inline-block; vertical-align: top; padding: 5px; top: 120px; left: 1320px;">
+                <div id="infoDraggableHandle" class="handle">Info</div>
+                <div>
+                    <div id="myInfo">Selecting nodes in the main Diagram will display information here</div>
+                </div>
+            </div>*@
+        </div>
+
+
+        @*<div style="display: inline-block; vertical-align: top; width:10%">
+            Selected Part:<br>
+            <div id="myInspectorDiv" class="inspector"> </div><br>
+
+        </div>*@
+        @Html.Hidden("jsonDiagram")
+
+    </div>
+
+}
+
+    <button onclick="Save()">Save</button>
+
+<script type="text/javascript">
+    init(@Html.Raw(Model.Nodes), @Html.Raw(Model.Links));
+</script>

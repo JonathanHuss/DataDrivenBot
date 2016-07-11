@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDrivenBot", "DataDrivenBot\DataDrivenBot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDrivenBot.Model", "DataDrivenBot.Model\DataDrivenBot.Model.csproj", "{7D37350C-E8D7-49C3-9BD4-8C6A43D40D0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDrivenBot.Admin", "DataDrivenBot.Admin\DataDrivenBot.Admin.csproj", "{6C2D1F12-2A0B-4847-9D2D-FF968E6770EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D37350C-E8D7-49C3-9BD4-8C6A43D40D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D37350C-E8D7-49C3-9BD4-8C6A43D40D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D37350C-E8D7-49C3-9BD4-8C6A43D40D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D37350C-E8D7-49C3-9BD4-8C6A43D40D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C2D1F12-2A0B-4847-9D2D-FF968E6770EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C2D1F12-2A0B-4847-9D2D-FF968E6770EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C2D1F12-2A0B-4847-9D2D-FF968E6770EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C2D1F12-2A0B-4847-9D2D-FF968E6770EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

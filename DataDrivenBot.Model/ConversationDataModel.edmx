@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ConversationDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Expression" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NextStepIDWhenTrue" Type="int" />
+          <Property Name="NextStepIDWhenFalse" Type="int" />
+        </EntityType>
+        <EntityType Name="ConversationTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Display">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PayloadProperty">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Prompt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RetryPrompt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResponseTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResponseOption">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StepID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NextStepID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResponseType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceCall">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Method" Type="nvarchar(max)" />
+          <Property Name="Headers" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StepTypeID" Type="int" />
+          <Property Name="NextStepID" Type="int" />
+          <Property Name="PayloadPropertyID" Type="int" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ConversationID" Type="int" />
+          <Property Name="StartingStep" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Condition_NextStepWhenFalse">
+          <End Role="Step" Type="Self.Step" Multiplicity="0..1" />
+          <End Role="Condition" Type="Self.Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="NextStepIDWhenFalse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Condition_NextStepWhenTrue">
+          <End Role="Step" Type="Self.Step" Multiplicity="0..1" />
+          <End Role="Condition" Type="Self.Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="NextStepIDWhenTrue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Condition_Step">
+          <End Role="Step" Type="Self.Step" Multiplicity="1" />
+          <End Role="Condition" Type="Self.Condition" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Display_Step">
+          <End Role="Step" Type="Self.Step" Multiplicity="1" />
+          <End Role="Display" Type="Self.Display" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Display">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_ResponseType">
+          <End Role="ResponseType" Type="Self.ResponseType" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResponseType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ResponseTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_Step">
+          <End Role="Step" Type="Self.Step" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseOption_NextStep">
+          <End Role="Step" Type="Self.Step" Multiplicity="1" />
+          <End Role="ResponseOption" Type="Self.ResponseOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResponseOption">
+              <PropertyRef Name="NextStepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseOption_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="ResponseOption" Type="Self.ResponseOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResponseOption">
+              <PropertyRef Name="StepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceCall_Step">
+          <End Role="Step" Type="Self.Step" Multiplicity="1" />
+          <End Role="ServiceCall" Type="Self.ServiceCall" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ServiceCall">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Step_ConversationTemplate">
+          <End Role="ConversationTemplate" Type="Self.ConversationTemplate" Multiplicity="0..1" />
+          <End Role="Step" Type="Self.Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConversationTemplate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Step_PayloadProperty">
+          <End Role="PayloadProperty" Type="Self.PayloadProperty" Multiplicity="0..1" />
+          <End Role="Step" Type="Self.Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayloadProperty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="PayloadPropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Step_Step">
+          <End Role="Step" Type="Self.Step" Multiplicity="0..1" />
+          <End Role="Step1" Type="Self.Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Step1">
+              <PropertyRef Name="NextStepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ConversationDataModelStoreContainer">
+          <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConversationTemplate" EntityType="Self.ConversationTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Display" EntityType="Self.Display" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayloadProperty" EntityType="Self.PayloadProperty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResponseOption" EntityType="Self.ResponseOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResponseType" EntityType="Self.ResponseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceCall" EntityType="Self.ServiceCall" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Step" EntityType="Self.Step" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Condition_NextStepWhenFalse" Association="Self.FK_Condition_NextStepWhenFalse">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Condition" EntitySet="Condition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_NextStepWhenTrue" Association="Self.FK_Condition_NextStepWhenTrue">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Condition" EntitySet="Condition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_Step" Association="Self.FK_Condition_Step">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Condition" EntitySet="Condition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Display_Step" Association="Self.FK_Display_Step">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Display" EntitySet="Display" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_ResponseType" Association="Self.FK_Question_ResponseType">
+            <End Role="ResponseType" EntitySet="ResponseType" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_Step" Association="Self.FK_Question_Step">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseOption_NextStep" Association="Self.FK_ResponseOption_NextStep">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="ResponseOption" EntitySet="ResponseOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseOption_Question" Association="Self.FK_ResponseOption_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="ResponseOption" EntitySet="ResponseOption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceCall_Step" Association="Self.FK_ServiceCall_Step">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="ServiceCall" EntitySet="ServiceCall" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Step_ConversationTemplate" Association="Self.FK_Step_ConversationTemplate">
+            <End Role="ConversationTemplate" EntitySet="ConversationTemplate" />
+            <End Role="Step" EntitySet="Step" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Step_PayloadProperty" Association="Self.FK_Step_PayloadProperty">
+            <End Role="PayloadProperty" EntitySet="PayloadProperty" />
+            <End Role="Step" EntitySet="Step" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Step_Step" Association="Self.FK_Step_Step">
+            <End Role="Step" EntitySet="Step" />
+            <End Role="Step1" EntitySet="Step" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataDrivenBot.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ConversationTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Steps" Relationship="DataDrivenBot.Model.FK_Step_ConversationTemplate" FromRole="ConversationTemplate" ToRole="Step" />
+        </EntityType>
+        <EntityType Name="PayloadProperty">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Steps" Relationship="DataDrivenBot.Model.FK_Step_PayloadProperty" FromRole="PayloadProperty" ToRole="Step" />
+        </EntityType>
+        <EntityType Name="ResponseOption">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StepID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NextStepID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NextStep" Relationship="DataDrivenBot.Model.FK_ResponseOption_NextStep" FromRole="ResponseOption" ToRole="Step" />
+          <NavigationProperty Name="Question" Relationship="DataDrivenBot.Model.FK_ResponseOption_Question" FromRole="ResponseOption" ToRole="Question" />
+          </EntityType>
+        <EntityType Name="ResponseType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="DataDrivenBot.Model.FK_Question_ResponseType" FromRole="ResponseType" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="NextStepID" Type="Int32" />
+          <Property Name="PayloadPropertyID" Type="Int32" />
+          <NavigationProperty Name="PayloadProperty" Relationship="DataDrivenBot.Model.FK_Step_PayloadProperty" FromRole="Step" ToRole="PayloadProperty" />
+          <NavigationProperty Name="NextStep" Relationship="DataDrivenBot.Model.FK_Step_Step" FromRole="Step" ToRole="NextStep" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConversationID" Type="Int32" />
+          <Property Name="StartingStep" Type="Boolean" />
+          <NavigationProperty Name="ConversationTemplate" Relationship="DataDrivenBot.Model.FK_Step_ConversationTemplate" FromRole="Step" ToRole="ConversationTemplate" />
+          </EntityType>
+        <EntityContainer Name="ConversationDataModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ConversationTemplates" EntityType="Self.ConversationTemplate" />
+          <EntitySet Name="PayloadProperties" EntityType="Self.PayloadProperty" />
+          <EntitySet Name="ResponseOptions" EntityType="Self.ResponseOption" />
+          <EntitySet Name="ResponseTypes" EntityType="Self.ResponseType" />
+          <EntitySet Name="Steps" EntityType="Self.Step" />
+          <AssociationSet Name="FK_Step_PayloadProperty" Association="DataDrivenBot.Model.FK_Step_PayloadProperty">
+            <End Role="PayloadProperty" EntitySet="PayloadProperties" />
+            <End Role="Step" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseOption_NextStep" Association="DataDrivenBot.Model.FK_ResponseOption_NextStep">
+            <End Role="Step" EntitySet="Steps" />
+            <End Role="ResponseOption" EntitySet="ResponseOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Step_Step" Association="DataDrivenBot.Model.FK_Step_Step">
+            <End Role="Step" EntitySet="Steps" />
+            <End Role="NextStep" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_ResponseType" Association="DataDrivenBot.Model.FK_Question_ResponseType">
+            <End Role="ResponseType" EntitySet="ResponseTypes" />
+            <End Role="Question" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseOption_Question" Association="DataDrivenBot.Model.FK_ResponseOption_Question">
+            <End Role="Question" EntitySet="Steps" />
+            <End Role="ResponseOption" EntitySet="ResponseOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Step_ConversationTemplate" Association="DataDrivenBot.Model.FK_Step_ConversationTemplate">
+            <End Role="ConversationTemplate" EntitySet="ConversationTemplates" />
+            <End Role="Step" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_NextStepWhenFalse" Association="DataDrivenBot.Model.FK_Condition_NextStepWhenFalse">
+            <End Role="Step" EntitySet="Steps" />
+            <End Role="Condition" EntitySet="Steps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_NextStepWhenTrue" Association="DataDrivenBot.Model.FK_Condition_NextStepWhenTrue">
+            <End Role="Step" EntitySet="Steps" />
+            <End Role="Condition" EntitySet="Steps" />
+          </AssociationSet>
+          </EntityContainer>
+        <Association Name="FK_Step_PayloadProperty">
+          <End Type="DataDrivenBot.Model.PayloadProperty" Role="PayloadProperty" Multiplicity="0..1" />
+          <End Type="DataDrivenBot.Model.Step" Role="Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayloadProperty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="PayloadPropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseOption_NextStep">
+          <End Type="DataDrivenBot.Model.Step" Role="Step" Multiplicity="1" />
+          <End Type="DataDrivenBot.Model.ResponseOption" Role="ResponseOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResponseOption">
+              <PropertyRef Name="NextStepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Step_Step">
+          <End Type="DataDrivenBot.Model.Step" Role="Step" Multiplicity="*" />
+          <End Type="DataDrivenBot.Model.Step" Role="NextStep" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NextStep">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="NextStepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Question" BaseType="DataDrivenBot.Model.Step">
+          <Property Name="Prompt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RetryPrompt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ResponseType" Relationship="DataDrivenBot.Model.FK_Question_ResponseType" FromRole="Question" ToRole="ResponseType" />
+          <NavigationProperty Name="ResponseOptions" Relationship="DataDrivenBot.Model.FK_ResponseOption_Question" FromRole="Question" ToRole="ResponseOption" />
+        </EntityType>
+        <EntityType Name="ServiceCall" BaseType="DataDrivenBot.Model.Step">
+          <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Method" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" />
+          <Property Name="Headers" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" />
+          </EntityType>
+        <Association Name="FK_Question_ResponseType">
+          <End Type="DataDrivenBot.Model.ResponseType" Role="ResponseType" Multiplicity="1" />
+          <End Type="DataDrivenBot.Model.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResponseType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ResponseTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseOption_Question">
+          <End Type="DataDrivenBot.Model.Question" Role="Question" Multiplicity="1" />
+          <End Type="DataDrivenBot.Model.ResponseOption" Role="ResponseOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ResponseOption">
+              <PropertyRef Name="StepID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Display" BaseType="DataDrivenBot.Model.Step">
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Step_ConversationTemplate">
+          <End Type="DataDrivenBot.Model.ConversationTemplate" Role="ConversationTemplate" Multiplicity="0..1" />
+          <End Type="DataDrivenBot.Model.Step" Role="Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConversationTemplate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Condition" BaseType="DataDrivenBot.Model.Step">
+          <Property Name="Expression" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NextStepIDWhenTrue" Type="Int32" />
+          <Property Name="NextStepIDWhenFalse" Type="Int32" />
+          <NavigationProperty Name="NextStepWhenFalse" Relationship="DataDrivenBot.Model.FK_Condition_NextStepWhenFalse" FromRole="Condition" ToRole="Step" />
+          <NavigationProperty Name="NextStepWhenTrue" Relationship="DataDrivenBot.Model.FK_Condition_NextStepWhenTrue" FromRole="Condition" ToRole="Step" />
+        </EntityType>
+        <Association Name="FK_Condition_NextStepWhenFalse">
+          <End Type="DataDrivenBot.Model.Step" Role="Step" Multiplicity="0..1" />
+          <End Type="DataDrivenBot.Model.Condition" Role="Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="NextStepIDWhenFalse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Condition_NextStepWhenTrue">
+          <End Type="DataDrivenBot.Model.Step" Role="Step" Multiplicity="0..1" />
+          <End Type="DataDrivenBot.Model.Condition" Role="Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="NextStepIDWhenTrue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ConversationDataModelStoreContainer" CdmEntityContainer="ConversationDataModel">
+          <EntitySetMapping Name="ConversationTemplates">
+            <EntityTypeMapping TypeName="DataDrivenBot.Model.ConversationTemplate">
+              <MappingFragment StoreEntitySet="ConversationTemplate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayloadProperties">
+            <EntityTypeMapping TypeName="DataDrivenBot.Model.PayloadProperty">
+              <MappingFragment StoreEntitySet="PayloadProperty">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResponseOptions">
+            <EntityTypeMapping TypeName="DataDrivenBot.Model.ResponseOption">
+              <MappingFragment StoreEntitySet="ResponseOption">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StepID" ColumnName="StepID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="NextStepID" ColumnName="NextStepID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResponseTypes">
+            <EntityTypeMapping TypeName="DataDrivenBot.Model.ResponseType">
+              <MappingFragment StoreEntitySet="ResponseType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Steps">
+            <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Step)">
+              <MappingFragment StoreEntitySet="Step">
+                <ScalarProperty Name="StartingStep" ColumnName="StartingStep" />
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PayloadPropertyID" ColumnName="PayloadPropertyID" />
+                <ScalarProperty Name="NextStepID" ColumnName="NextStepID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.ServiceCall)">
+              <MappingFragment StoreEntitySet="ServiceCall">
+                <ScalarProperty Name="Headers" ColumnName="Headers" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Question)">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Prompt" ColumnName="Prompt" />
+                <ScalarProperty Name="RetryPrompt" ColumnName="RetryPrompt" />
+                <ScalarProperty Name="ResponseTypeID" ColumnName="ResponseTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Display)">
+              <MappingFragment StoreEntitySet="Display">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Condition)">
+              <MappingFragment StoreEntitySet="Condition">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Expression" ColumnName="Expression" />
+                <ScalarProperty Name="NextStepIDWhenTrue" ColumnName="NextStepIDWhenTrue" />
+                <ScalarProperty Name="NextStepIDWhenFalse" ColumnName="NextStepIDWhenFalse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

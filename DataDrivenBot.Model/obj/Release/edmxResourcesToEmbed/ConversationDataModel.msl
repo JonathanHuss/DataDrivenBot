@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ConversationDataModelStoreContainer" CdmEntityContainer="ConversationDataModel">
+    <EntitySetMapping Name="ConversationTemplates">
+      <EntityTypeMapping TypeName="DataDrivenBot.Model.ConversationTemplate">
+        <MappingFragment StoreEntitySet="ConversationTemplate">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PayloadProperties">
+      <EntityTypeMapping TypeName="DataDrivenBot.Model.PayloadProperty">
+        <MappingFragment StoreEntitySet="PayloadProperty">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ResponseOptions">
+      <EntityTypeMapping TypeName="DataDrivenBot.Model.ResponseOption">
+        <MappingFragment StoreEntitySet="ResponseOption">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="StepID" ColumnName="StepID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="NextStepID" ColumnName="NextStepID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ResponseTypes">
+      <EntityTypeMapping TypeName="DataDrivenBot.Model.ResponseType">
+        <MappingFragment StoreEntitySet="ResponseType">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Steps">
+      <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Step)">
+        <MappingFragment StoreEntitySet="Step">
+          <ScalarProperty Name="StartingStep" ColumnName="StartingStep" />
+          <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PayloadPropertyID" ColumnName="PayloadPropertyID" />
+          <ScalarProperty Name="NextStepID" ColumnName="NextStepID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.ServiceCall)">
+        <MappingFragment StoreEntitySet="ServiceCall">
+          <ScalarProperty Name="Headers" ColumnName="Headers" />
+          <ScalarProperty Name="Method" ColumnName="Method" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Question)">
+        <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Prompt" ColumnName="Prompt" />
+          <ScalarProperty Name="RetryPrompt" ColumnName="RetryPrompt" />
+          <ScalarProperty Name="ResponseTypeID" ColumnName="ResponseTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Display)">
+        <MappingFragment StoreEntitySet="Display">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(DataDrivenBot.Model.Condition)">
+        <MappingFragment StoreEntitySet="Condition">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Expression" ColumnName="Expression" />
+          <ScalarProperty Name="NextStepIDWhenTrue" ColumnName="NextStepIDWhenTrue" />
+          <ScalarProperty Name="NextStepIDWhenFalse" ColumnName="NextStepIDWhenFalse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

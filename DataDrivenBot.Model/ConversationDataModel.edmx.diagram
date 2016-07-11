@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0fdff943f3ab450788d54a8fdf662cc9" Name="Diagram1">
+        <EntityTypeShape EntityType="DataDrivenBot.Model.ConversationTemplate" Width="2.625" PointX="3.375" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.PayloadProperty" Width="1.5" PointX="2.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.ResponseOption" Width="1.5" PointX="1.375" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.ResponseType" Width="1.5" PointX="5.375" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.Step" Width="2.5" PointX="5.5" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_Step_PayloadProperty" ></AssociationConnector>
+        <AssociationConnector Association="DataDrivenBot.Model.FK_ResponseOption_NextStep" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_Step_Step" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.Question" Width="1.5" PointX="3.375" PointY="11.25" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.ServiceCall" Width="1.5" PointX="9.625" PointY="8.125" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_Question_ResponseType" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_ResponseOption_Question" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.ServiceCall" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Question" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.Display" Width="1.5" PointX="8.375" PointY="5.625" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Display" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_Step_ConversationTemplate" />
+        <EntityTypeShape EntityType="DataDrivenBot.Model.Condition" Width="2.25" PointX="8.625" PointY="12" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Condition" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_Condition_NextStepWhenFalse" />
+        <AssociationConnector Association="DataDrivenBot.Model.FK_Condition_NextStepWhenTrue" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Condition" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Display" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Display" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Condition" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.ServiceCall" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Question" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Question" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Condition" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Display" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Condition" />
+        <InheritanceConnector EntityType="DataDrivenBot.Model.Display" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

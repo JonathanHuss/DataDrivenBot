@@ -1,0 +1,53 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+.draggable {
+  display: inline-block;
+  vertical-align: top;
+  border: 4px solid #BBB;
+  border-radius: 4px;
+  background-color: #F5F5F5;
+  position: absolute;
+  top: 20px;
+  left: 120px;
+  z-index: 500;
+}
+
+.handle {
+  background-color: lightblue;
+  cursor: move;
+  text-align: center;
+  font: bold 12px sans-serif;
+}
+
+#infoDraggable {
+  font: 12px helvetica, sans-serif;
+}
+
+#myInfo {
+  width: 100%;
+  overflow: hidden;
+}
